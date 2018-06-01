@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="es">
+    <head>
+        <title>AdonisBlog | {{ title }}</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+         <meta name="csrf_token" content="{{ csrfToken }}">
+        {{--  {{ css('style') }}  --}}
+        {{ css('https://bootswatch.com/4/flatly/bootstrap.min.css') }}
+        {{ css('https://use.fontawesome.com/releases/v5.0.13/css/all.css') }}
+        {{ css('https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.6-rc.0/css/select2.min.css') }}
+        
+
+    </head>
+    <body>
+    @include('partials.header')
+    <div class="container">
+        @!section('content')
+    </div>
+    @section('scripts')
+      {{ script('https://code.jquery.com/jquery-3.3.1.slim.min.js') }}
+      {{ script('app.js') }}
+      {{ script('https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.0/umd/popper.min.js') }}
+      {{ script('https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/js/bootstrap.min.js') }}
+      {{ script('https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.6-rc.0/js/select2.min.js') }}
+      
+    @endsection
+    </body>
+</html>

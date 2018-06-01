@@ -1,0 +1,72 @@
+@layout('layouts.main')
+
+@section('content')
+ <div class="row">
+    <h1>Areas</h1>
+    <div class="col-md-12 mt-5 form-inline">
+        <div class="col-md-4">
+            @if(areas.length > 0)
+                <ul class="list-group">
+                    @each(area in areas)
+                        <li class="list-group-item d-flex justify-content-between align-items-center">
+                            <label >{{ area.description }} | 
+                            <div class="form-vertical">
+                            @each(area_e in area.employments)
+                                <span class="badge badge-primary col-md-12">{{ area_e.description }}</span>
+                            @endeach
+                            
+                            </div>
+                            
+                            </label>
+                            
+                            <div class="form-group">
+                                
+                                <form action="/areas/{{ area.id }}?_method=delete" method="post">
+                                    {{ csrfField() }}
+                                    <button type="submit" class="btn btn-danger"><span class="fas fa-trash-alt"></span></button>
+                                </form>
+                            </div>
+                            
+                        </li>
+                    @endeach
+                </ul>
+            @else
+                <h2> No hay areas para mostrar </h2>
+            @endif
+        </div>
+        <div class="col-md-8">
+            <form action="/areas" method="post" class="form-inline">
+            
+                {{ csrfField() }}
+                <div class="form-group col-md-5 {{ hasErrorFor('description') ? 'has-danger' : ''}}">
+                    <label for="description" class="col-md-2">Area</label>
+                    <input name="description" type="text" 
+                    class="form-control {{ hasErrorFor('description') ? 'is-invalid' : ''}}"
+                     id="cargo" aria-describedby="cargoHelp" 
+                     placeholder="Ingrese un area" value="{{ old('description', '') }}">
+                    <small id="cargoHelp" 
+                    class="form-text col-md-12 offset-md-1 {{ hasErrorFor('description') ? 'invalid-feedback' : 'text-muted'}}">
+                    {{ hasErrorFor('description') ? getErrorFor('description') : 'Nombre del area'}}
+                    </small>
+                    {{--  {{ getErrorFor('description'), hasErrorFor('description') }}  --}}
+                </div>
+                <div class="form-group col-md-6 {{ hasErrorFor('employment_id') ? 'has-danger' : ''}}">
+                <label for="employment_id" class="col-md-2">Cargo </label>
+                    <select name="employment_id[]" multiple="multiple"
+                     class="col-md-10">
+                        @each(employment in employments)
+                          <option value="{{employment.id}}">{{employment.description}}</option>
+                        @endeach
+                    </select>
+                    <small class="form-text col-md-12 offset-md-2 {{ hasErrorFor('employment_id') ? 'text-danger' : 'text-muted'}}">
+                    {{ hasErrorFor('employment_id') ? getErrorFor('employment_id') : 'Seleccione los cargos a aplicar.'}}
+                    </small>
+                </div>
+                <div class="col-md-12 ml-auto">
+                    <button type="submit" class="btn btn-success mt-2 offset-9">Agregar Area</button>
+                </div>
+            </form>
+        </div>
+    </div>
+ </div>
+@endsection

@@ -1,0 +1,48 @@
+@layout('layouts.main')
+
+@section('content')
+ <div class="row">
+    <h1>Cargos</h1>
+    <div class="col-md-12 mt-5 form-inline">
+        <div class="col-md-5">
+            @if(employments.length > 0)
+                <ul class="list-group">
+                    @each(employment in employments)
+                        <li class="list-group-item d-flex justify-content-between align-items-center">
+                            {{ employment.description }}
+                            <div class="form-group">
+                                
+                                <form action="/employments/{{ employment.id }}?_method=delete" method="post">
+                                    {{ csrfField() }}
+                                    <button type="submit" class="btn btn-danger"><span class="fas fa-trash-alt"></span></button>
+                                </form>
+                            </div>
+                        </li>
+                    @endeach
+                </ul>
+            @else
+                <h2> No hay cargos para mostrar </h2>
+            @endif
+        </div>
+        <div class="col-md-7">
+            <form action="/employments" method="post" class="form-inline">
+            
+                {{ csrfField() }}
+                <div class="form-group col-md-6 {{ hasErrorFor('description') ? 'has-danger' : ''}}">
+                    <label for="description" class="col-md-2">Cargo</label>
+                    <input name="description" type="text" 
+                    class="form-control {{ hasErrorFor('description') ? 'is-invalid' : ''}}"
+                     id="cargo" aria-describedby="cargoHelp" 
+                     placeholder="Ingrese un cargo" value="{{ old('description', '') }}">
+                    <small id="cargoHelp" 
+                    class="form-text col-md-12 offset-md-1 {{ hasErrorFor('description') ? 'invalid-feedback' : 'text-muted'}}">
+                    {{ hasErrorFor('description') ? getErrorFor('description') : 'Nombre del cargo'}}
+                    </small>
+                    {{--  {{ getErrorFor('description'), hasErrorFor('description') }}  --}}
+                </div>
+                <button type="submit" class="btn btn-success">Agregar Cargo</button>
+            </form>
+        </div>
+    </div>
+ </div>
+@endsection
