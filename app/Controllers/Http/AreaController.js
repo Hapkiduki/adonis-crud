@@ -18,11 +18,6 @@ class AreaController {
       .with('employments')
       .fetch()
 
-    //.fetch()
-    //console.log(areas.toJSON()[0].employments.length )
-    //console.log(areas.size())
-    //console.log(employments.toJSON())
-
     return view.render('areas/index', {
       title: 'Areas',
       areas: areas.toJSON(),
@@ -37,7 +32,7 @@ class AreaController {
   }) {
     const rules = {
         description: 'required|unique:areas',
-        employment_id: 'required'  
+        employment_id: 'required'
     }
 
     const messages = {
@@ -46,7 +41,7 @@ class AreaController {
       'employment_id.required': 'Cargo is required to continue.',
     }
 
-      
+
     const data = request.except(['_csrf'])
 
     const validation = await validate(data, rules, messages)
@@ -55,18 +50,23 @@ class AreaController {
       session.withErrors(validation.messages()).flashAll()
       return response.redirect('back')
     }
-    
-      const area = new Area();
-      area.description = data.description;
-      area.save();
-      //console.log(data.employment_id);
-      //data.description = data.description
-//      data.employment_id = data.employment_id[0]
-      const areaEmployment = await area.employments().sync([data.employment_id[0]])
-      
-    //const employment = await Employment.create(data)
+
+    const area = await Area.create({description:data.description})
+      for (const employment_id of data.employment_id) {
+
+        const areaEmployment = await area.employments().sync(employment_id,area.id)
+      }
+
       return response.redirect('back');
   }
+
+  async destroy({ session, params, response }) {
+    const { id } = params
+    const area = await Area.find(id)
+    area.delete();
+    //console.log(employment.id)
+    return response.redirect('back');
+}
 }
 
 module.exports = AreaController
