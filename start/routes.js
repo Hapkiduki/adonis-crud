@@ -15,8 +15,10 @@
 
 const Route = use('Route')
 
-Route.on('/').render('home', {title: 'Inicio'});
+//Route.on('/').render('home', {title: 'Inicio'});
 //Route.get('/employments').render('employments/index', {title: 'Cargos'}).as('cargos');
+
+//Route.get('/', '');
 //Route.on('/areas').render('areas/index', {title: 'Areas'}).as('areas');
 
 /*Route.get('/employments', async ({ request, view }) => {
@@ -26,3 +28,4 @@ Route.on('/').render('home', {title: 'Inicio'});
 
 Route.resource('/employments', 'EmploymentController').apiOnly()
 Route.resource('/areas', 'AreaController').apiOnly()
+Route.resource('/', 'WorkforceController').apiOnly()

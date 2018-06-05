@@ -12,6 +12,12 @@ class Employment extends Model {
             .pivotTable('employment_area') 
 
     }
+
+    workforces() {
+        return this
+            .hasMany('App/Models/Workforce')
+
+    }
 }
 
 module.exports = Employment

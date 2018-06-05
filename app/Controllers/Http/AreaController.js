@@ -54,7 +54,7 @@ class AreaController {
     const area = await Area.create({description:data.description})
       for (const employment_id of data.employment_id) {
 
-        const areaEmployment = await area.employments().sync(employment_id,area.id)
+        const areaEmployment = await area.employments().attach(employment_id,area.id)
       }
 
       return response.redirect('back');
